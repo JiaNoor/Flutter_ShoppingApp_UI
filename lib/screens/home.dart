@@ -15,24 +15,24 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool _isFavorited = true;
-  void _toggleFavorite() {
+  var _isFavorited = [true, true, true, true, true, true, true];
+  void _toggleFavorite(int i) {
     setState(() {
-      if (_isFavorited) {
-        _isFavorited = false;
+      if (_isFavorited[i]) {
+        _isFavorited[i] = false;
       } else {
-        _isFavorited = true;
+        _isFavorited[i] = true;
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (ind != names1.length) {
-      setState(() {
+    setState(() {
+      if (ind != names1.length) {
         ind = names1.length;
-      });
-    }
+      }
+    });
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red[100],
@@ -96,7 +96,7 @@ class _HomeState extends State<Home> {
       drawer: AppDrawer(), //Drawer
       body: Column(
         children: [
-          Flexible(
+          Expanded(
             child: Container(
               height: MediaQuery.of(context).size.height * 0.2,
               child: ListView.builder(
@@ -145,7 +145,7 @@ class _HomeState extends State<Home> {
                                 children: [
                                   IconButton(
                                     onPressed: () {
-                                      if (_isFavorited == true) {
+                                      if (_isFavorited[index] == true) {
                                         names2.add(names[index]);
                                         price2.add(price[index]);
                                         imgs2.add(imgs[index]);
@@ -154,9 +154,9 @@ class _HomeState extends State<Home> {
                                         price2.remove(price[index]);
                                         imgs2.remove(imgs[index]);
                                       }
-                                      _toggleFavorite();
+                                      _toggleFavorite(index);
                                     },
-                                    icon: (_isFavorited
+                                    icon: (_isFavorited[index]
                                         ? const Icon(Icons.favorite_border)
                                         : const Icon(Icons.favorite)),
                                     color: Colors.red[500],
@@ -268,77 +268,38 @@ Widget header(String product, String rem, String img, context) {
 }
 
 //Bottom Navigation Bar
+
 Widget bottom(context) {
-  return BottomAppBar(
-    child: Container(
-      height: 60.0,
-      width: double.maxFinite,
-      decoration: const BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.vertical()),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Column(
-            children: [
-              IconButton(
-                icon: Icon(
-                  Icons.home,
-                  color: Colors.orange[900],
-                ),
-                onPressed: () {},
-              ),
-              Text(
-                "Home",
-                style: TextStyle(
-                  color: Colors.orange[900],
-                  fontSize: 8,
-                ),
-              ),
-            ],
+  return BottomNavigationBar(items: [
+    BottomNavigationBarItem(
+        icon: IconButton(
+          icon: Icon(
+            Icons.home,
           ),
-          Column(
-            children: [
-              IconButton(
-                icon: Icon(
-                  Icons.search,
-                  color: Colors.orange[900],
-                ),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SearchBar()));
-                },
-              ),
-              Text(
-                "Search",
-                style: TextStyle(
-                  color: Colors.orange[900],
-                  fontSize: 8,
-                ),
-              ),
-            ],
+          onPressed: () {},
+        ),
+        label: "Home"),
+    BottomNavigationBarItem(
+        icon: IconButton(
+          icon: Icon(
+            Icons.search,
           ),
-          Column(children: [
-            IconButton(
-              icon: Icon(
-                Icons.person,
-                color: Colors.orange[900],
-              ),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Profile()));
-              },
-            ),
-            Text(
-              "Profile",
-              style: TextStyle(
-                color: Colors.orange[900],
-                fontSize: 8,
-              ),
-            ),
-          ]),
-        ],
-      ),
-    ),
-  );
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => SearchBar()));
+          },
+        ),
+        label: "Search"),
+    BottomNavigationBarItem(
+        icon: IconButton(
+          icon: Icon(
+            Icons.person,
+          ),
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Profile()));
+          },
+        ),
+        label: "Profile")
+  ]);
 }
