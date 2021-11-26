@@ -208,7 +208,10 @@ class _HomeState extends State<Home> {
                                         ind = names1.length;
                                       });
                                     },
-                                    icon: Icon(Icons.shopping_cart_outlined),
+                                    icon: Icon(
+                                      Icons.shopping_cart_outlined,
+                                      color: Colors.black,
+                                    ),
                                   )
                                 ],
                               )
@@ -222,7 +225,38 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      bottomNavigationBar: bottom(context),
+      bottomNavigationBar: BottomNavigationBar(items: [
+        BottomNavigationBarItem(
+            icon: IconButton(
+              icon: Icon(
+                Icons.home,
+              ),
+              onPressed: () {},
+            ),
+            label: "Home"),
+        BottomNavigationBarItem(
+            icon: IconButton(
+              icon: Icon(
+                Icons.search,
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SearchBar()));
+              },
+            ),
+            label: "Search"),
+        BottomNavigationBarItem(
+            icon: IconButton(
+              icon: Icon(
+                Icons.person,
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Profile()));
+              },
+            ),
+            label: "Profile")
+      ]),
     );
   }
 }
@@ -265,41 +299,4 @@ Widget header(String product, String rem, String img, context) {
               ),
             ),
           )));
-}
-
-//Bottom Navigation Bar
-
-Widget bottom(context) {
-  return BottomNavigationBar(items: [
-    BottomNavigationBarItem(
-        icon: IconButton(
-          icon: Icon(
-            Icons.home,
-          ),
-          onPressed: () {},
-        ),
-        label: "Home"),
-    BottomNavigationBarItem(
-        icon: IconButton(
-          icon: Icon(
-            Icons.search,
-          ),
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => SearchBar()));
-          },
-        ),
-        label: "Search"),
-    BottomNavigationBarItem(
-        icon: IconButton(
-          icon: Icon(
-            Icons.person,
-          ),
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Profile()));
-          },
-        ),
-        label: "Profile")
-  ]);
 }
